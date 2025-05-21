@@ -3,27 +3,39 @@ Vagrant.configure("2") do |config|
   vagrant_box = "ubuntu/jammy64"
   provider = "virtualbox"
   provision_server = <<-SHELL
+    # Set the INSTALL_K3S_EXEC environment variable
+    export INSTALL_K3S_EXEC="--bind-address 192.168.56.110 --flannel-iface eth1"
     curl -sfL https://get.k3s.io | sh -
     sleep 10
-    cp /var/lib/rancher/k3s/server/node-token /home/vagrant
+    cp /var/lib/rancher/k3s/server/node-token /vagrant/node-token
     echo "WE DID IT GUYS (delete, just for testing, ok?)"
-    SHELL
+  SHELL
   provision_server_worker = <<-SHELL
-    curl -sfL https://get.k3s.io | K3S_URL=https://192.168.56.110:6443 K3S_TOKEN=$(sudo cat home/vagrant/node-token) sh -
+    while [ ! -f /vagrant/node-token ]; do
+      echo "Waiting for token..."
+      sleep 2
+    done
+    echo "provision_server_worker begins, master has finished, the servant debuts"
+    export K3S_URL="https://192.168.56.110:6443"
+    echo "after export K3S_URL=https://192.168.56.110:6443"
+    export K3S_TOKEN=$(cat /vagrant/node-token)
+    echo "after export K3S_TOKEN=$(cat /vagrant/node-token)"
+    export INSTALL_K3S_EXEC="--node-ip 192.168.56.111 --flannel-iface enp0s8"
+    curl -sfL https://get.k3s.io | sh -
+    echo "It's time to sleep"
     sleep 10
-    sudo k3s kubectl get nodes
     echo "WE DID IT AGAIN GUYS (delete, just for testing, ok?)"
-    SHELL
+  SHELL
   nodes = [
     {
-      name: "npavelicS", 
-      IP_address: "192.168.56.110", 
-      CPU: 1, 
+      name: "npavelicS",
+      IP_address: "192.168.56.110",
+      CPU: 1,
       RAM: 512,
       provision: provision_server
-    }, 
+    },
     {
-      name: "kkwasnySW", 
+      name: "kkwasnySW",
       IP_address: "192.168.56.111",
       CPU: 1,
       RAM: 512,
