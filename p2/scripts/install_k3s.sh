@@ -16,13 +16,17 @@ done
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 
 # Apply deployments and services
-echo "[INFO] Deploying apps..."
-kubectl apply -f /vagrant/confs/app1-deployment.yaml
-kubectl apply -f /vagrant/confs/app2-deployment.yaml
-kubectl apply -f /vagrant/confs/app3-deployment.yaml
+echo "[INFO] Deploying all apps in confs..."
+kubectl apply -R -f /vagrant/confs/
 
 # Apply ingress
 echo "[INFO] Applying ingress rule..."
 kubectl apply -f /vagrant/confs/ingress.yaml
 
 echo "[INFO] Done! Apps should be reachable via Host headers."
+echo "[INFO] Try: curl -H 'Host: app1.com' http://192.168.56.110"
+echo "[INFO] Also try with 'app2.com' and 'app3.com' as host headers."
+echo "[INFO] Finally, try a random host value, e.g. 'shmismshmang' - that should also go to app3."
+
+
+

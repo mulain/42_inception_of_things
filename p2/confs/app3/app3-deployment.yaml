@@ -19,14 +19,3 @@ spec:
         - "-text=Hello from app3"
         ports:
         - containerPort: 5678
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: app3
-spec:
-  selector:
-    app: app3
-  ports:
-  - port: 80
-    targetPort: 5678
