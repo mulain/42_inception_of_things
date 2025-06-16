@@ -84,11 +84,11 @@ if ! command -v argocd &> /dev/null; then
   chmod +x argocd
   sudo mv argocd /usr/local/bin/argocd
 else
-  echo "✅ Argo CD CLI already installed. Skipping..."
+  echo "Argo CD CLI already installed. Skipping..."
 fi
 
 ### === Port-forward Argo CD and Authenticate === ###
-kubectl port-forward svc/argocd-server -n argocd 8080:443 &
+kubectl port-forward svc/argocd-server -n argocd 8080:443 > /dev/null 2>&1 &
 sleep 5
 
 ARGOCD_PASSWORD=$(kubectl -n argocd get secret argocd-initial-admin-secret \
@@ -98,7 +98,9 @@ echo "🔐 Logging into Argo CD CLI..."
 argocd login localhost:8080 --username admin --password "$ARGOCD_PASSWORD" --insecure
 
 ### === Register the cluster with Argo CD === ###
-argocd cluster add k3d-mycluster --yes --insecure
+# argocd cluster add k3d-mycluster --yes --insecure
+
+kubectl get namespace dev &>/dev/null || kubectl create namespace dev
 
 ### === Create and Sync Argo CD App === ###
 echo "🚀 Creating and syncing Argo CD application 'wil-playground'..."
