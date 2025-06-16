@@ -114,3 +114,6 @@ argocd app create wil-playground \
 argocd app sync wil-playground
 
 echo "✅ Argo CD setup and app deployment complete!"
+echo "Use kubectl -n dev get svc,pods -o wide to check the status of the application and retrieve the service IP."
+echo "External IP is the ip in the curl command in the next line; the port is what 8888:XXXX maps to."
+echo "Use e.g. curl http://172.18.0.3:32191 to access the application from inside the vm."
