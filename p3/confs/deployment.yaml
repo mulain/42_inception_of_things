@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: app
-          image: wil42/playground:v8
+          image: wil42/playground:v1
           ports:
             - containerPort: 8888
