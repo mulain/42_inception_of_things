@@ -20,8 +20,9 @@ echo "[INFO] Deploying all apps in confs..."
 kubectl apply -R -f /vagrant/confs/
 
 # Apply ingress
-echo "[INFO] Applying ingress rule..."
-kubectl apply -f /vagrant/confs/ingress.yaml
+# echo "[INFO] Applying ingress rule..."
+# kubectl apply -f /vagrant/confs/ingress.yaml
+# Not needed because included in -R cmd above.
 
 echo "[INFO] Done! Apps should be reachable via Host headers."
 echo "[INFO] Try: curl -H 'Host: app1.com' http://192.168.56.110"
