@@ -47,7 +47,7 @@ fi
 if k3d cluster list | grep -q "^mycluster\s"; then
   echo "✅ Cluster 'mycluster' already exists. Skipping creation."
 else
-  k3d cluster create mycluster --api-port 6550 -p "8888:80@loadbalancer"
+  k3d cluster create mycluster --api-port 6550 -p "8888:8888@loadbalancer"
 fi
 
 # Ensure 'argocd' namespace exists and wait for it to be ready
@@ -57,12 +57,16 @@ if kubectl get namespace argocd &> /dev/null; then
 else
   echo "=== Creating 'argocd' namespace ==="
   kubectl create namespace argocd
-  echo "Waiting for 'argocd' namespace to be established..."
-  kubectl wait --for=condition=Established namespace/argocd --timeout=90s
+  echo "Not Waiting for 'argocd' namespace to be established..."
+  #kubectl wait --for=condition=Established namespace/argocd --timeout=90s
 fi
 
-echo "=== Installing Argo CD ==="
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+if kubectl -n argocd get deploy argocd-server &> /dev/null; then
+  echo "✅ Argo CD is already installed. Skipping installation."
+else
+  echo "=== Installing Argo CD ==="
+  kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+fi
 
 # echo "=== Setup complete ==="
 # echo "To access Argo CD UI in the machine running the cluster:"
@@ -87,12 +91,19 @@ else
   echo "Argo CD CLI already installed. Skipping..."
 fi
 
+echo "📡 Waiting for Argo CD server deployment to be ready..."
+kubectl rollout status deployment argocd-server -n argocd --timeout=120s
+
 ### === Port-forward Argo CD and Authenticate === ###
 kubectl port-forward svc/argocd-server -n argocd 8080:443 > /dev/null 2>&1 &
-sleep 5
 
-ARGOCD_PASSWORD=$(kubectl -n argocd get secret argocd-initial-admin-secret \
-  -o jsonpath="{.data.password}" | base64 -d)
+until ARGOCD_PASSWORD=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d 2>/dev/null); do
+  echo "Waiting for Argo CD admin secret to be available..."
+  sleep 5
+done
+
+echo "✅ Retrieved Argo CD password."
+
 
 echo "🔐 Logging into Argo CD CLI..."
 argocd login localhost:8080 --username admin --password "$ARGOCD_PASSWORD" --insecure
