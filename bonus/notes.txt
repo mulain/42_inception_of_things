@@ -14,3 +14,9 @@ ss  socket statistics
 -l	Show only listening sockets (i.e. those waiting for connections)
 -n	Show numeric addresses/ports (do not resolve names like localhost)
 ss -tuln
+
+# get pw argocd
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+
+# get pw gitlab
+kubectl get secret -n gitlab gitlab-gitlab-initial-root-password -o jsonpath="{.data.password}" | base64 --decode

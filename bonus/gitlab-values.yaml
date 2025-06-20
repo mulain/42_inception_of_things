@@ -1,31 +1,39 @@
 global:
+  #externalUrl: http://localhost:8081
+  
   hosts:
-    domain: app.com
-    externalIP: localhost
-    externalUrl: http://localhost:8081
-    http: localhost:8081
+    domain: localhost
+    externalIP: localhost:8081
     https: false
+
   ingress:
     configureCertmanager: false
+
   kas:
     enabled: false
+    
   rails:
     bootsnap:
       enabled: false
+
 nginx-ingress:
   enabled: false
+
 postgresql:
   resources:
     requests:
       memory: 200Mi
+
 prometheus:
   install: false
+
 redis:
   allowEmptyPassword: true
   password: ""
   resources:
     requests:
       memory: 100Mi
+
 registry:
   enabled: false
   hpa:
