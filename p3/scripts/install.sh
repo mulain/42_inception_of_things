@@ -104,7 +104,6 @@ done
 
 echo "✅ Retrieved Argo CD password."
 
-
 echo "🔐 Logging into Argo CD CLI..."
 argocd login localhost:8080 --username admin --password "$ARGOCD_PASSWORD" --insecure
 

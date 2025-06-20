@@ -1,0 +1,16 @@
+# Retrieve user changes yaml from running instance
+helm get values gitlab -n gitlab -o yaml
+
+# Port forward for a service: Argo CD
+0.0.0.0 instead of localhost is important to expose the ports on all interfaces
+(to get it to physical host)
+
+kubectl port-forward --address 0.0.0.0 svc/argocd-server -n argocd 8080:443
+
+# Inspect sockets
+ss  socket statistics
+-t	Show TCP sockets
+-u	Show UDP sockets
+-l	Show only listening sockets (i.e. those waiting for connections)
+-n	Show numeric addresses/ports (do not resolve names like localhost)
+ss -tuln
