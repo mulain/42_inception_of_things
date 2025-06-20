@@ -1,5 +1,6 @@
 global:
-  #externalUrl: http://localhost:8081
+  externalUrl: http://localhost:8081
+  shmism: shmang
   
   hosts:
     domain: localhost
@@ -8,16 +9,20 @@ global:
 
   ingress:
     configureCertmanager: false
+    class: nginx
+    enabled: true
+    tls:
+      enabled: false
 
   kas:
     enabled: false
-    
+
   rails:
     bootsnap:
       enabled: false
 
 nginx-ingress:
-  enabled: false
+  enabled: true
 
 postgresql:
   resources:

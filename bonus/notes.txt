@@ -7,6 +7,10 @@ helm get values gitlab -n gitlab -o yaml
 
 kubectl port-forward --address 0.0.0.0 svc/argocd-server -n argocd 8080:443
 
+# Port forward for gitlab in detached mode (type 'fg' in the terminal that ran it to get it back)
+kubectl port-forward --address 0.0.0.0 svc/gitlab-webservice-default -n gitlab 8081:8080 > /dev/null 2>&1 &
+
+
 # Inspect sockets
 ss  socket statistics
 -t	Show TCP sockets
