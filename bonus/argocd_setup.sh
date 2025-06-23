@@ -121,7 +121,7 @@ REPO="ssh://git@gitlab.localhost:2226/root/iot_bonus.git"
 cat /root/.ssh/id_rsa
 
 CLONE_DIR="repo_clone"                                  # Local folder to clone into
-SOURCE_DIR="/root/Inception_of_things_npavelic/p3/confs"
+SOURCE_DIR="/root/kartosh/p3/confs"
 TARGET_SUBDIR="confs"
 
 # Check SSH connectivity
