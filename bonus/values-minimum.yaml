@@ -1,57 +1,82 @@
 global:
+  externalUrl: http://localhost:8081
+  shmism: shmang
+  
   hosts:
-    domain: your.gitlab.domain  # Replace with your actual domain or variable
-    externalIP: your.external.ip # Replace with your actual IP or variable
+    domain: localhost
+    externalIP: ""
+    https: false
+
   ingress:
     configureCertmanager: false
-  rails:
-    bootsnap:
+    class: nginx
+    enabled: true
+    tls:
       enabled: false
+
   kas:
     enabled: false
 
-certmanager:
-  install: false
+  rails:
+    bootsnap:
+      enabled: false
+
+nginx-ingress:
+  enabled: true
+
+postgresql:
+  resources:
+    requests:
+      memory: 200Mi
 
 prometheus:
   install: false
 
+redis:
+  allowEmptyPassword: true
+  password: ""
+  resources:
+    requests:
+      memory: 100Mi
+
+registry:
+  enabled: false
+  hpa:
+    maxReplicas: 1
+    minReplicas: 1
+
+gitlab:
+  gitlab-exporter:
+    enabled: false
+  gitlab-shell:
+    maxReplicas: 1
+    minReplicas: 1
+  kas:
+    maxReplicas: 1
+    minReplicas: 1
+  sidekiq:
+    enabled: false
+    maxReplicas: 1
+    minReplicas: 1
+    resources:
+      requests:
+        cpu: 60m
+        memory: 300M
+  toolbox:
+    enabled: false
+  webservice:
+    maxReplicas: 1
+    minReplicas: 1
+    resources:
+      requests:
+        memory: 600M
+    workerProcesses: 0
+
 gitlab-runner:
   install: false
 
-gitlab-exporter:
-  enabled: false
-
-toolbox:
-  enabled: false
-
-gitlab:
-  webservice:
-    minReplicas: 1
-    maxReplicas: 1
-    workerProcesses: 0
-    resources:
-      requests:
-        memory: 600Mi
-
-  sidekiq:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 1
-    resources:
-      requests:
-        memory: 300Mi
-        cpu: 60m
-
-  gitlab-shell:
-    minReplicas: 1
-    maxReplicas: 1
-
-  kas:
-    minReplicas: 1
-    maxReplicas: 1
-
-registry:
-  hpa:
-    minReplicas: 1
-    maxReplicas: 1
+certmanager:
+  install: false
+  
+certmanager-issuer:
+  email: knism@student.42wolfsburg.de
