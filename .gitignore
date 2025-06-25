@@ -1,4 +1,3 @@
 **/.vagrant/
 *.deb
 node-token
-**/repo_clone/
