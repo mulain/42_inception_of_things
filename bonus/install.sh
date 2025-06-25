@@ -33,7 +33,7 @@ helm upgrade --install gitlab gitlab/gitlab -n gitlab -f gitlab-values.yaml
 if ! pgrep -f "port-forward svc/gitlab-nginx-ingress-controller" > /dev/null; then
   echo "📡 Starting port-forward on localhost:8081..."
   kubectl port-forward svc/gitlab-nginx-ingress-controller -n gitlab --address 0.0.0.0 8081:80 > /dev/null 2>&1 &
-  sleep 3
+  sleep 5
 else
   echo "✅ Port-forward already running."
 fi
