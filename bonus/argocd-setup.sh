@@ -12,12 +12,12 @@ kubectl -n gitlab port-forward svc/gitlab-gitlab-shell 2226:22 > /dev/null 2>&1 
 sleep 5  # wait for port-forward to be ready
 echo "✅ Port forward started, PID: $!"
 
-
-APP_REPO="ssh://git@gitlab-gitlab-shell.gitlab.svc.cluster.local:22/root/iot_bonus.git"
-REPO="ssh://git@gitlab.localhost:2226/root/iot_bonus.git"
+REPO_SLUG="iot_bonus"
+APP_REPO="ssh://git@gitlab-gitlab-shell.gitlab.svc.cluster.local:22/root/$REPO_SLUG.git"
+REPO="ssh://git@gitlab.localhost:2226/root/$REPO_SLUG.git"
 
 CLONE_DIR="/tmp/repo_clone"
-CONFS_DIR="/temp/confs-copy"
+CONFS_DIR="/tmp/confs-copy"
 APP_NAMESPACE="dev"
 
 # Check SSH connectivity
