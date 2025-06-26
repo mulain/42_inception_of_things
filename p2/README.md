@@ -109,6 +109,10 @@ The Deployment's containerPort must match the Service's targetPort.
 This abstracts away Pod IPs and allows Pods to scale dynamically.
 
 
+### ⁉️ What name or label has to match between service.yaml, deployment.yaml and ingress.yaml?
+
+The conf files of app1 show what has to match. If it doesn't match there, it doesn't have to. If it does match, it must. Compare service, deployment and ingress!
+
 ## 🚀 Getting Started
 
 To start the cluster and deploy the apps:
@@ -152,15 +156,15 @@ Once everything is up, you can access the apps using curl with custom Host heade
 Overview of deployed apps and replica counts:
 
 ```
-kubectl get deployments
+kubectl -n dev get deployments
 ```
 
 Pod overview with details:
 ```
-kubectl get pods -o wide
+kubectl -n dev get pods -o wide
 ```
 
 Detailed view of all:
 ```
-kubectl get all
+kubectl -n dev get all
 ```
