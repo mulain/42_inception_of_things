@@ -13,7 +13,7 @@ else
   echo "Please log out and log back in to apply Docker group changes."
 fi
 
-# Install K3D
+# Install k3d
 
 if command -v k3d &> /dev/null; then
   echo "✅ k3d is already installed. Skipping..."
@@ -107,9 +107,11 @@ echo "🔐 Logging into Argo CD CLI..."
 argocd login localhost:8080 --username admin --password "$ARGOCD_PASSWORD" --insecure
 
 # Handle 'dev' namespace
+
 kubectl get namespace dev &>/dev/null || kubectl create namespace dev
 
 # Create and sync Argo CD application
+
 echo "🚀 Creating and syncing Argo CD application 'wil-playground'..."
 argocd app create wil-playground \
   --repo https://github.com/karolinakwasny/Inception_of_things_npavelic.git \
@@ -118,7 +120,7 @@ argocd app create wil-playground \
   --dest-namespace dev \
   --sync-policy automated
 
-argocd app sync wil-playground
+# argocd app sync wil-playground
 
 echo "✅ Argo CD setup and app deployment complete!"
 echo "password: $ARGOCD_PASSWORD"

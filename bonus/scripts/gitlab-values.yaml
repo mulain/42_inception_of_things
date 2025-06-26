@@ -1,3 +1,7 @@
+# This file is used to configure the GitLab Helm chart.
+# It is stored alongside the install script as it it not part of
+# the other confs.
+
 global:
   externalUrl: http://localhost:8081
   shmism: shmang

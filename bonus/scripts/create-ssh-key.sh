@@ -5,6 +5,7 @@ KEY_DIR="/root/.ssh"
 KEY_PATH="$KEY_DIR/id_rsa"
 
 # Ensure SSH key exists
+
 if [ ! -f "$KEY_PATH" ]; then
   echo "🔐 SSH key not found at $KEY_PATH, generating one now..."
   mkdir -p "$KEY_DIR"
@@ -13,5 +14,6 @@ if [ ! -f "$KEY_PATH" ]; then
 fi
 
 # Output the public key
+
 echo "⚠️  Add the following SSH public key to GitLab:"
 cat "$KEY_PATH.pub"

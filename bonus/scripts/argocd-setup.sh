@@ -2,8 +2,9 @@
 set -e
 
 # Ensure part 3 is installed
+
 echo "🔧 Running Part 3 installation script..."
-../p3/scripts/install.sh
+../../p3/scripts/install.sh
 
 # Port forwarding for gitlab-gitlab-shell on random port (2226)
 
@@ -21,14 +22,17 @@ CONFS_DIR="/tmp/confs-copy"
 APP_NAMESPACE="dev"
 
 # Check SSH connectivity
+
 ssh -T -p 2226 git@gitlab.localhost -o StrictHostKeyChecking=no
 
 # Move config files to an absolute path
+
 echo "📂 Copying conf files to absolute path: $CONFS_DIR..."
 mkdir -p "$CONFS_DIR"
 cp -r -p confs/* "$CONFS_DIR"
 
 # Clone the repo if not already cloned
+
 if [ ! -d "$CLONE_DIR" ]; then
     echo "📦 Cloning repository..."
     git clone "$REPO" "$CLONE_DIR" || exit 1
@@ -39,31 +43,35 @@ fi
 cd "$CLONE_DIR" || exit 1
 
 # Copy files
+
 echo "📂 Copying files from $CONFS_DIR to $CLONE_DIR/confs..."
 mkdir -p "$CLONE_DIR/confs"
 cp -r -p "$CONFS_DIR/"* "$CLONE_DIR/confs/"
 
 # Git configuration
+
 echo "🔧 Configuring Git..."
 git remote set-url origin "$REPO"
 git config --local user.name "root"
 git config --local user.email "your_email@example.com"
 
 # Add and commit changes
+
 echo "📦 Adding and committing changes to the repository..."
 git add confs
 git commit -m "Add configuration files" || echo "ℹ️ Nothing to commit. Ruh Roh?!"
 git push
-
 echo "✅ Git push complete."
 
 # Add Repo to ArgoCD
+
 echo "🚀 Adding ArgoCD repo $APP_REPO"
 argocd repo add "$APP_REPO" \
     --ssh-private-key-path /root/.ssh/id_rsa \
     --insecure-skip-server-verification
 
 # Creating ArgoCD app
+
 echo "🧩 Creating ArgoCD application wil-playground-bonus..."
 argocd app create wil-playground-bonus \
   --repo "$APP_REPO" \
@@ -73,12 +81,13 @@ argocd app create wil-playground-bonus \
   --sync-policy automated
 
 # Ensure the namespace exists
+
 echo "🔧 Ensuring '$APP_NAMESPACE' namespace exists..."
 kubectl get namespace "$APP_NAMESPACE" &>/dev/null || kubectl create namespace "$APP_NAMESPACE"
 
 # Create RoleBinding for ArgoCD app controller
-echo "⏳ Creating RoleBinding for Argo CD Application Controller in namespace '$APP_NAMESPACE'..."
 
+echo "⏳ Creating RoleBinding for Argo CD Application Controller in namespace '$APP_NAMESPACE'..."
 kubectl apply -f - <<EOF
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -94,12 +103,12 @@ subjects:
   name: argocd-application-controller
   namespace: argocd
 EOF
-
 echo "✅ RoleBinding applied."
 
 # Sync the ArgoCD app
-echo "🔄 Syncing ArgoCD application wil-playground-bonus..."
-argocd app sync wil-playground-bonus
+
+echo -e "🔄 SHMISMSHMANG\nNOT Syncing ArgoCD application wil-playground-bonus...\nCHECK IF THIS IS OK"
+#argocd app sync wil-playground-bonus
 
 echo "✅ Argo CD setup and app deployment complete!"
 echo "Use kubectl -n $APP_NAMESPACE get svc,pods -o wide to check the status."
