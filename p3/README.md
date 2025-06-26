@@ -30,10 +30,20 @@ curl http://172.18.0.2:32506
 Visit: http://localhost:8080
 It is being forwarded in the install.sh script. Important: it is being forwarded on all interfaces due to the ```--adress 0.0.0.0``` flag - otherwise it would not be forwarded through to the physical host machine.
 
-Our structure
+
+
+## NodePort
+
+NodePort is a Kubernetes Service type. It creates a static port on each worker node’s network interface that forwards traffic into the Service, exposing the Service on a specific port (e.g., 30080) on every node in the cluster.
+External clients can access the app by hitting any node’s IP address at that port.
 
 We use NodePort instead of Loadbalancer or an actual ingress solution here.
 A real ingress should usually be preffered, i.e. nginx or traefik, but we wanted to try this out and also this never has to scale.
+
+It’s a simple way to expose a Service outside the cluster without an external load balancer. Useful for development, testing, or bare-metal clusters without cloud load balancers.
+
+
+## Our structure
 
 here is the basic structure of the setup
 ```

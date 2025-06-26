@@ -14,16 +14,12 @@ K3s is a lightweight Kubernetes distribution created by Rancher (now part of SUS
 
 It’s basically Kubernetes at home.
 
----
-<br>
 
 ## 📦 Requirements
 
 - [VirtualBox](https://www.virtualbox.org/)
 - [Vagrant](https://www.vagrantup.com/downloads)
 
----
-<br>
 
 ## 📄 The Vagrantfile
 
@@ -43,8 +39,6 @@ The file has 2 parts:
     - Sync the current folder to each VM: this will enable sharing between VMs and inspecting the shared files from the host
     - Run the provisioning scripts
 
----
-<br>
 
 ## 🏗️ Provisioning scripts
 
@@ -57,12 +51,10 @@ Both server and worker (also referred to as agent) install K3s using this line:
 - Downloads the official K3s installation script.
 
 - Flags:
-
     - `-s` Silent mode (no progress bar).
-
     - `-f` Fail silently on HTTP errors.
-
     - `-L` Follow HTTP redirects.
+
 - `|` pipes the curl return (which is the downloaded file) to stdout.
 
 - `[...]` contains 
@@ -112,8 +104,6 @@ The server must also share the node token with the worker to allow it to join th
 
     - `--flannel-iface eth1`: Tells K3s to use eth1 for its flannel overlay networking interface (i.e. internal pod-to-pod traffic).
 
----
-<br>
 
 ## 📡 Container Network Interface: Flannel
 
@@ -123,8 +113,6 @@ In this overlay, each node gets a virtual subnet, and pods communicate with each
 
 `Flannel` is a simple and popular CNI plugin for Kubernetes. We configure it using inline vars in the provisioning scripts.
 
----
-<br>
 
 ## 🚀 Getting Started
 
@@ -146,18 +134,6 @@ This will:
 
 1. Join the worker node to the cluster using the node token
 
----
-<br>
-
-## 🛠 How It Works
-
-- VMs use a **private network** for internal communication (`192.168.56.x`)
-- The controller (`npavelicS`) installs K3s server and exposes the API server
-- The worker (`kkwasnySW`) installs K3s agent, waits for the token, then joins the cluster using the token
-
----
-<br>
-
 
 ## 💻 Common Vagrant Commands
 
@@ -175,8 +151,6 @@ Some basic commands to work with Vagrant:
 | `vagrant suspend`                 | Saves the current VM state and stops the VM                  |
 | `vagrant resume`                  | Resumes a suspended VM                                       |
 
----
-<br>
 
 ## 🔍 Cluster Access
 

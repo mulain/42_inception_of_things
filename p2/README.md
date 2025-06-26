@@ -19,16 +19,12 @@ It acts like a smart router or reverse proxy inside the cluster.
 
 - Traefik (modern, supports dynamic configuration)
 
----
-<br>
 
 ## 📦 Requirements
 
 - [VirtualBox](https://www.virtualbox.org/)
 - [Vagrant](https://www.vagrantup.com/)
 
----
-<br>
 
 ## ⚙️ Install Script
 
@@ -42,10 +38,10 @@ It acts like a smart router or reverse proxy inside the cluster.
 
 - `export KUBECONFIG=/etc/rancher/k3s/k3s.yaml` By default, `K3s` writes the kubeconfig file (credentials, cluster IP, CA, etc.) to the path referenced in the command. However, `kubectl` looks for the config file in `~/.kube/config`. By setting `KUBECONFIG` env variable, we are overriding `kubectl`'s standard behavior.
 
----
-<br>
 
 ## 🛠️ Kubernetes Deployments
+
+A Kubernetes Deployment manages the lifecycle of a set of Pods, ensuring the desired number of replicas are running and up to date. It automatically handles rolling updates, restarts failed Pods, and maintains high availability. By defining a Deployment, we declare how the application should run, and Kubernetes ensures it stays that way.
 
 -  `apiVersion: apps/v1`
     - Specifies the Kubernetes API version to use for the object.
@@ -81,10 +77,10 @@ It acts like a smart router or reverse proxy inside the cluster.
                 - `ports`
                     - `containerPort: 5678` Declares that the container listens on port 5678 internally. This doesn't expose it outside the cluster — it’s mostly informational for Kubernetes, but also used by Services.
 
----
-<br>
 
 ## 🔗 Kubernetes Services
+
+A Kubernetes Service is an abstraction that exposes a group of Pods under a stable network endpoint. It automatically load-balances traffic to the matching Pods using label selectors, even as Pods are created or destroyed. This allows other services or external clients to access the app reliably without needing to know individual Pod IPs.
 
 - `apiVersion: v1`
 Specifies the Kubernetes API version for this resource. v1 is the core API version where Service lives.
@@ -105,17 +101,12 @@ Specifies the Kubernetes API version for this resource. v1 is the core API versi
 
 This Service listens on port 80 and forwards requests to port 5678 on the matching Pods.
 
-🧩 What happens overall?
-A client inside the cluster can connect to app3 on port 80.
+### 🧩 What happens overall?
 
-The Service forwards that traffic to port 5678 on the Pods labeled app: app3.
-
-So the Deployment's containerPort must match the Service's targetPort.
-
+A client inside the cluster can connect to app3 on port 80.  
+The Service forwards that traffic to port 5678 on the Pods labeled app: app3.  
+The Deployment's containerPort must match the Service's targetPort.  
 This abstracts away Pod IPs and allows Pods to scale dynamically.
-
----
-<br>
 
 
 ## 🚀 Getting Started
@@ -136,8 +127,6 @@ This will:
     - App deployments and services
     - Ingress configuration
 
----
-<br>
 
 ## 📡 Accessing the Apps
 
@@ -149,8 +138,6 @@ Once everything is up, you can access the apps using curl with custom Host heade
 
 `curl -H "Host: shmismshmang.com" http://192.168.56.110` -> Hello from app3
 
----
-<br>
 
 ## 💡 How It Works
 - The VM uses IP 192.168.56.110 via a private network interface (enp0s8)
@@ -159,8 +146,6 @@ Once everything is up, you can access the apps using curl with custom Host heade
 
 - The Ingress is handled by Traefik, which routes based on the Host header
 
----
-<br>
 
 ## 📌 Useful Commands
 
