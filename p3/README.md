@@ -122,8 +122,13 @@ spec:
 
 **Notes:**
 - **Label selector**: `spec.template.metadata.labels` must match `spec.selector.matchLabels`. It's how the deployment knows which Pod to manage.
-- **Container port**: Application listens on port 8888
-- **containerPort**: This is documentation. Neither Kubernetes, nor the app running in the container are influenced by this. It's the app's image that listens on this port -- so it's good to write it down here to make sure the Service managing this Deployment forwards to the correct port.
+- **containerPort**: This field is for documentation and optional use by Kubernetes. It doesn’t affect what port the app actually listens on — that’s defined inside the container’s code. However, it's useful for:
+
+    - Readability
+    - Port-forwarding (kubectl port-forward defaults to this port)
+    - Defining readiness/liveness probes
+
+    It's good practice to set containerPort to match the app’s real internal port (in this case, 8888), especially when creating a Service with targetPort: 8888.
 
 ### Service (`confs/service.yaml`)
 ```yaml
