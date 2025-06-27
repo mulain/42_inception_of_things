@@ -1,4 +1,4 @@
-# 🚧 Vagrant K3s Cluster Setup
+# Vagrant K3s Cluster Setup
 
 Part 1 sets up a minimal two-node Kubernetes (K3s) cluster using [Vagrant](https://www.vagrantup.com/) and VirtualBox. It consists of:
 
@@ -12,16 +12,12 @@ K3s is a lightweight Kubernetes distribution created by Rancher (now part of SUS
 - Resource-efficient
 - Ideal for development, edge computing, IoT, CI/CD, and small clusters
 
-It’s basically Kubernetes at home.
-
-
-## 📦 Requirements
+## Requirements
 
 - [VirtualBox](https://www.virtualbox.org/)
 - [Vagrant](https://www.vagrantup.com/downloads)
 
-
-## 📄 The Vagrantfile
+## The Vagrantfile
 
 The `Vagrantfile` defines and provisions two VMs:
 - `npavelicS` – controller node (`192.168.56.110`)
@@ -39,8 +35,7 @@ The file has 2 parts:
     - Sync the current folder to each VM: this will enable sharing between VMs and inspecting the shared files from the host
     - Run the provisioning scripts
 
-
-## 🏗️ Provisioning scripts
+## Provisioning scripts
 
 Though part of the `Vagrantfile`, these do the heavy lifting for setting up K3s and thus deserve their own section.
 
@@ -58,16 +53,15 @@ Both server and worker (also referred to as agent) install K3s using this line:
 - `|` pipes the curl return (which is the downloaded file) to stdout.
 
 - `[...]` contains 
-inline environment variable defintions such as `K3S_URL="..."`. These apply only to the command that immediately follows (`sh -`). See next section for more information on them.
+inline environment variable definitions such as `K3S_URL="..."`. These apply only to the command that immediately follows (`sh -`). See next section for more information on them.
 
-- `sh -`: runs the command in stdout: executes the downloaded file and sets up th K3s machine using the inline env vars.
+- `sh -`: runs the command in stdout: executes the downloaded file and sets up the K3s machine using the inline env vars.
 
 The server must also share the node token with the worker to allow it to join the cluster:
     
 - `sudo chmod 777 /var/lib/rancher/k3s/server/node-token`: Prevents user-mismatch issues when copying `node-token`. The shell's user may not be the K3s installation's user and thus not have permission to manipulate the token.
 
 - `sudo cp /var/lib/rancher/k3s/server/node-token /vagrant/node-token`: Copies `node-token` to the sync'd folder so the worker machine (and the host, just for observing) can access it.
-
 
 ### Env variables
 
@@ -104,8 +98,7 @@ The server must also share the node token with the worker to allow it to join th
 
     - `--flannel-iface eth1`: Tells K3s to use eth1 for its flannel overlay networking interface (i.e. internal pod-to-pod traffic).
 
-
-## 📡 Container Network Interface: Flannel
+## Container Network Interface: Flannel
 
 Container Network Interfaces (CNI) provide pod-to-pod networking across nodes by creating a virtual overlay network.
 
@@ -113,8 +106,7 @@ In this overlay, each node gets a virtual subnet, and pods communicate with each
 
 `Flannel` is a simple and popular CNI plugin for Kubernetes. We configure it using inline vars in the provisioning scripts.
 
-
-## 🚀 Getting Started
+## Getting Started
 
 To start the K3s cluster, run:
 
@@ -125,17 +117,12 @@ vagrant up
 This will:
 
 1. Launch both VMs
+2. Install `K3s server` on the controller node
+3. Write the controller's node token to a shared folder
+4. Install `K3s agent` on the worker
+5. Join the worker node to the cluster using the node token
 
-1. Install `K3s server` on the controller node
-
-1. Write the controller’s node token to a shared folder
-
-1. Install `K3s agent` on the worker
-
-1. Join the worker node to the cluster using the node token
-
-
-## 💻 Common Vagrant Commands
+## Common Vagrant Commands
 
 Some basic commands to work with Vagrant:
 
@@ -151,8 +138,7 @@ Some basic commands to work with Vagrant:
 | `vagrant suspend`                 | Saves the current VM state and stops the VM                  |
 | `vagrant resume`                  | Resumes a suspended VM                                       |
 
-
-## 🔍 Cluster Access
+## Cluster Access
 
 To check cluster status from the controller:
 

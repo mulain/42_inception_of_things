@@ -13,7 +13,7 @@ done
 echo "Exporting KUBECONFIG..."
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 
-echo "[INFO] Applying all settings in confs..."
+echo "Applying all settings in confs..."
 kubectl apply -R -f /vagrant/confs/
 
 echo "Done! Apps will soon (takes a while sometimes) be reachable via Host headers."
