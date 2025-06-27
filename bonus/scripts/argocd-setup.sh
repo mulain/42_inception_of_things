@@ -29,7 +29,7 @@ ssh -T -p 2226 git@gitlab.localhost -o StrictHostKeyChecking=no
 
 echo "📂 Copying conf files to absolute path: $CONFS_DIR..."
 mkdir -p "$CONFS_DIR"
-cp -r -p confs/* "$CONFS_DIR"
+cp -r -p ../confs/* "$CONFS_DIR"
 
 # Clone the repo if not already cloned
 
@@ -104,11 +104,6 @@ subjects:
   namespace: argocd
 EOF
 echo "✅ RoleBinding applied."
-
-# Sync the ArgoCD app
-
-echo -e "🔄 SHMISMSHMANG\nNOT Syncing ArgoCD application wil-playground-bonus...\nCHECK IF THIS IS OK"
-#argocd app sync wil-playground-bonus
 
 echo "✅ Argo CD setup and app deployment complete!"
 echo "Use kubectl -n $APP_NAMESPACE get svc,pods -o wide to check the status."
