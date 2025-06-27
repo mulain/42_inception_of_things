@@ -15,6 +15,9 @@ spec:
     spec:
       containers:
         - name: app
-          image: wil42/playground:v2
+          image: wil42/playground:v1
           ports:
-            - containerPort: 8888
+            - containerPort: 8888 
+            # This is optional, it's documentation. Neither Kubernetes nor the app are influenced by this line.
+            # The wil-playground app listens on port 8888 because its image is configured to do so.
+          

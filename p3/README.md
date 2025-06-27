@@ -120,10 +120,10 @@ spec:
             - containerPort: 8888
 ```
 
-**Key Features:**
-- **Single replica**: Development setup with one instance
+**Notes:**
+- **Label selector**: `spec.template.metadata.labels` must match `spec.selector.matchLabels`. It's how the deployment knows which Pod to manage.
 - **Container port**: Application listens on port 8888
-- **Label selector**: Matches service selector for traffic routing
+- **containerPort**: This is documentation. Neither Kubernetes, nor the app running in the container are influenced by this. It's the app's image that listens on this port -- so it's good to write it down here to make sure the Service managing this Deployment forwards to the correct port.
 
 ### Service (`confs/service.yaml`)
 ```yaml
@@ -137,7 +137,7 @@ spec:
   selector:
     app: wil-playground
   ports:
-    - port: 8888
+    - port: 80
       targetPort: 8888
       nodePort: 30080
 ```
@@ -145,9 +145,9 @@ spec:
 **Service Configuration:**
 - **NodePort type**: Exposes service on cluster node ports
 - **Port mapping**: 
-  - `port: 8888` - Service port
-  - `targetPort: 8888` - Container port
-  - `nodePort: 30080` - External access port
+  - `port: 80` - Service port. Used for communication inside the cluster.
+  - `targetPort: 8888` - Port the Service forwards to on the Pod. So the app in the Pod should be listening on this.
+  - `nodePort: 30080` - External access port.
 
 ## Access Points
 

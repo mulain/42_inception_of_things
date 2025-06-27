@@ -8,6 +8,6 @@ spec:
   selector:
     app: wil-playground
   ports:
-    - port: 8888
-      targetPort: 8888
-      nodePort: 30080
+    - port: 80 # Port exposed by the Service inside the Kubernetes cluster. It is the port used inside the cluster by other pods or services
+      targetPort: 8888 # Port that the Service forwards to. Must correspond to the port the container/app listens on inside the Pod. It is defined by the app's Docker image.
+      nodePort: 30080 # Port exposed on the node for external access (e.g., via <node-ip>:30080).
