@@ -144,15 +144,26 @@ Once everything is up, you can access the apps using curl with custom Host heade
 Overview of deployed apps and replica counts:
 
 ```
-kubectl -n dev get deployments
+kubectl get deployments
 ```
 
 Pod overview with details:
 ```
-kubectl -n dev get pods -o wide
+kubectl get pods -o wide
 ```
 
-Detailed view of all:
+Detailed view of all elements our confs generate:
 ```
-kubectl -n dev get all
+kubectl get all
+```
+
+Detailed view of Kubernetes system elements
+
+```
+kubectl get all -n kube-system
+```
+
+Show eth1 interface inside VM
+```
+ip -s link show eth1
 ```

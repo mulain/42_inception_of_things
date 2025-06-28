@@ -5,6 +5,25 @@ Part 1 sets up a minimal two-node Kubernetes (K3s) cluster using [Vagrant](https
 - A **controller node** running the K3s server
 - A **worker node** joining the controller via a shared token
 
+
+## Kubernetes Core Concepts
+
+Kubernetes is an open-source system for automating the deployment, scaling, and management of containerized applications.  
+It continuously monitors the system and automatically takes corrective actions to maintain the desired state (e.g. restarting failed containers or rescheduling Pods).
+
+| Concept        | Description                                                                 |
+|----------------|-----------------------------------------------------------------------------|
+| **Cluster**    | A group of machines running Kubernetes (control plane + worker nodes).      |
+| **Node**       | A single machine (VM or physical) in the cluster that runs application Pods.|
+| **Pod**        | The smallest deployable unit; usually a single container or tightly coupled group. |
+| **Deployment** | Defines desired state for Pods (e.g. replica count) and handles rollout/updates. |
+| **Service**    | Exposes Pods to the network and load balances between them.                 |
+| **Namespace**  | Virtual cluster within a cluster, used for grouping and isolating resources.|
+| **Ingress**    | Manages external access to services, typically via HTTP/HTTPS.             |
+| **Scheduler**  | Assigns Pods to Nodes based on resource availability and policies.          |
+| **Controller** | Maintains cluster state (e.g., ensures the correct number of Pods are running). |
+| **Kubelet**    | Node agent that runs on each Node and communicates with the control plane.  |
+
 ### K3s
 K3s is a lightweight Kubernetes distribution created by Rancher (now part of SUSE), designed to be:
 
@@ -144,5 +163,8 @@ To check cluster status from the controller:
 
 ```bash
 vagrant ssh npavelicS
-kubectl get nodes
+kubectl get nodes -o wide
+ip a show eth1
+ip -s link show eth1
+
 ```

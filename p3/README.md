@@ -2,6 +2,23 @@
 
 Part 3 demonstrates a **GitOps workflow** using ArgoCD for continuous deployment to a local Kubernetes cluster. This setup uses k3d (Kubernetes in Docker) instead of Vagrant VMs, providing a lightweight development environment.
 
+## What is CI/CD
+
+A Continuous Integration (CI) / Continuous Deployment (CD) pipeline is a process that automates how code changes move from development to production. 
+- Continuous Integration  
+    - Automatically builds and tests code on every change (e.g., when pushing to Git).
+    - Catches bugs early by running tests on every commit or pull request.
+
+- Continuous Delivery (or Deployment)
+    - Delivery: Automatically prepares code for release, but a human still clicks "deploy."
+    - Deployment: Goes a step further — changes are automatically deployed to production if tests pass.
+
+
+- A CI/CD pipeline is like a factory line for code:
+    - New Code is pushed
+    - Pipeline runs (build, tests, packaging)
+    - If everything passes, it’s automatically shipped to users
+
 ## What is GitOps?
 
 GitOps is a methodology where Git is the single source of truth for declarative infrastructure and applications. Changes to infrastructure or applications are made through Git commits, and an automated process ensures the actual state matches the desired state defined in Git.
